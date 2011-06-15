@@ -1,3 +1,5 @@
 server/env
 
 *.swp
+*.pyc
+*.pyo
