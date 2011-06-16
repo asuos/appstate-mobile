@@ -10,11 +10,11 @@ You need a mac with the package manager `pip`, `homebrew` and `git` installed.
     $ easy_install pip
     $ pip install virtualenv
     $ cd ~/your/development/folder
-    $ git clone git@cmspilot.appstate.edu:
+    $ git clone git@cmspilot.appstate.edu:appstate-mobile.git
 
-## Setting up 
+## Building the app
 
-    $ cd server
+    $ cd appstate-mobile/server
     $ virtualenv --no-site-packages env 
     $ source ./env/bin/activate
     $ pip install -r consumer/requirements.txt

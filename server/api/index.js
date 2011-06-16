@@ -4,6 +4,6 @@ var requestHandlers = require("./requestHandlers");
 
 var handle = {}
 
-handle["/events/.json"] = requestHandlers.events_feed;
+handle["/1.0/events.json"] = requestHandlers.events_feed;
 
 server.start(router.route, handle);
