@@ -1,5 +1,5 @@
 var utils = require("./utils");
-var client = require("./node_modules/node-redis").createClient();
+var client = require("./libs/node-redis").createClient();
 
 /**
  * Generates the events feed.
