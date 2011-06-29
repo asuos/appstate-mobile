@@ -1,7 +1,5 @@
-var sys = require("sys");
-var exec = require("child_process").exec;
 var utils = require("./utils");
-
+var client = require("./node_modules/node-redis").createClient();
 
 /**
  * Generates the events feed.
@@ -11,32 +9,21 @@ var utils = require("./utils");
  */
 function events_feed(response, request) {
 
-  var now = new Date();
-  var timestamp = parseInt(now.getTime() / 1000)
+//var now = new Date();
+//var timestamp = parseInt(now.getTime() / 1000)
 
-  var command = 'redis-cli -h localhost -p 6379 GET events';
-
-  exec(command, { timeout: 10000, maxBuffer: 20000*1024 },
-    function (error, stdout, stderr) {
-      if ( stderr ) {
-        utils.logger('events_feed', 'stderr', 'ERR', stderr, request);
-        response.writeHead(500, {'Content-Type': 'text/html'});
-        response.write("500 Server Error");
-        response.end();
-      } else {;
-        var obj = {
-          'metadata': {
-            'created': timestamp,
-          },
-          'events': stdout,
-        };
-        response.writeHead(200, {"Content-Type": "text/json"});
-        response.write(JSON.stringify(obj));
-        response.end();
-        utils.logger('events_feed', 'stdout', 'OK', 'Responded with events', request);
-      }
-    });
+  client.get('events', function(error, value) {
+    if (!error) {
+      response.writeHead(200, {"Content-Type": "text/html"}); // text/json
+      response.write(value);
+      response.end();
+    } else {
+      utils.logger('events_feed', 'error', 'ERR', error, request);
+      response.writeHead(500, {'Content-Type': 'text/html'});
+      response.write("500 Server Error");
+      response.end();
+    };
+  });
 }
-
 exports.events_feed = events_feed
 
